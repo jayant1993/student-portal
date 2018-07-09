@@ -8,6 +8,10 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
 
     });
 
+    /**
+     * User
+     */
+
     Route::post('user/add','Usercontroller@adduser');
 
     Route::post('user/view','Usercontroller@getuser');
@@ -21,6 +25,22 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
     Route::post('user/login','Usercontroller@login');
 
     Route::post('user/refresh','Usercontroller@refresh');
+
+    /**
+     * Course
+     */
+
+    Route::post('course/add','Coursecontroller@addcourse');
+
+    Route::post('course/list','Coursecontroller@listcourse');
+
+    Route::post('course/get','Coursecontroller@findOne');
+
+    Route::post('course/update','Coursecontroller@updatecourse');
+
+    Route::post('course/delete','Coursecontroller@deletecourse');
+
+    // Route::post('course/add','Coursecontroller@addcourse');
     
 });
 
