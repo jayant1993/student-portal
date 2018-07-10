@@ -10,6 +10,7 @@ class CourseHelper
     public static function addCourse($request){
 
         $parameter = [
+            'id' => str_random(5),
             'course_name' => $request->course_name,
             'status' => $request->status
         ];

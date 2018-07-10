@@ -34,7 +34,7 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
 
     Route::post('course/list','Coursecontroller@listcourse');
 
-    Route::post('course/get','Coursecontroller@findOne');
+    Route::post('course/get','Coursecontroller@getCourse');
 
     Route::post('course/update','Coursecontroller@updatecourse');
 

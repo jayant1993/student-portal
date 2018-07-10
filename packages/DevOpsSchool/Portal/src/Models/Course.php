@@ -44,7 +44,7 @@ class Course extends Eloquent
     public function findAll($parameter)
     {
          try{
-             $result = $this::skip((Integer) $parameter['offset'])->take((Integer) $parameter['count'])->project(["_id" => 0])->get();
+             $result = $this::skip((Integer) $parameter['offset'])->take((Integer) $parameter['count'])->project(["_id" => 0])->get($parameter['parameter']);
              return $result;
         } catch(Exception $e){
              return false;
