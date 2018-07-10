@@ -27,20 +27,33 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
     Route::post('user/refresh','Usercontroller@refresh');
 
     /**
-     * Course
+     * Courses
      */
 
     Route::post('course/add','Coursecontroller@addcourse');
 
     Route::post('course/list','Coursecontroller@listcourse');
 
-    Route::post('course/get','Coursecontroller@getCourse');
+    Route::post('course/get','Coursecontroller@getcourse');
 
     Route::post('course/update','Coursecontroller@updatecourse');
 
     Route::post('course/delete','Coursecontroller@deletecourse');
 
-    // Route::post('course/add','Coursecontroller@addcourse');
+    /**
+     * Topics
+     */
+
+    Route::post('topic/add','Topiccontroller@addtopic');
+
+    Route::post('topic/list','Topiccontroller@listtopic');
+
+    Route::post('topic/get','Topiccontroller@gettopic');
+
+    Route::post('topic/update','Topiccontroller@updatetopic');
+
+    Route::post('topic/delete','Topiccontroller@deletetopic');
+    
     
 });
 

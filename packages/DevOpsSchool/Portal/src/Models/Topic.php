@@ -30,7 +30,7 @@ class Topic extends Eloquent
     public function findOne($parameter)
     {
         try{
-         $result = $this::where(key($parameter['filters']), $parameter['filters'][key($parameter['filters'])])->project(["_id" => 0])->first($parameter['user_data']);
+         $result = $this::where(key($parameter['filters']), $parameter['filters'][key($parameter['filters'])])->project(["_id" => 0])->first($parameter['topic_data']);
              return $result;
         } catch(Exception $e){
              return false;
@@ -56,7 +56,7 @@ class Topic extends Eloquent
     {
         try{
              $result = $this::where('id', $parameter['id'])
-             ->update($parameter['user_data']);
+             ->update($parameter['topic_data']);
              return $result;
         } catch(Exception $e){
              return false;
@@ -69,9 +69,9 @@ class Topic extends Eloquent
     public function deleteOne($id)
     {
         try{
-             $result_users = $this::where('id', $id)->delete();
+             $result_topic = $this::where('id', $id)->delete();
              
-             if($result_users){
+             if($result_topic){
                      return true;
              } else{
                  return false;

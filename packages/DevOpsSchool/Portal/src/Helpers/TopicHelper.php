@@ -7,19 +7,43 @@ use Portal\Models\Topic;
 class TopicHelper
 {
 
+    public static function addTopic($request){
+
+        $parameter = [
+            'id' => str_random(5),
+            'course_id' => $request->course_id,
+            'topic_name' => $request->topic_name,
+            'price' => $request->price,
+            'status' => $request->status
+        ];
+
+        $topic = new Topic();
+        $addtopic = $topic->pushOne($parameter);
+
+        if($addtopic){
+
+            return ['message' => 'success', 'data' => $addtopic, 'status_code' => 200];
+        } else{
+
+            return ['message' => 'failed', 'data' => 'unable to get data', 'status_code' => 500];
+        }
+
+    }
+
+
     public static function getTopic($request){
 
         $parameter = [
             'filters' => $request['filters'],
-            'user_data' => $request['user_data']
+            'topic_data' => $request['topic_data']
         ];
 
-        $user = new User();
-        $getuser = $user->findOne($parameter);
+        $topic = new Topic();
+        $gettopic = $topic->findOne($parameter);
 
-        if($getuser){
+        if($gettopic){
 
-            return ['message' => 'success', 'data' => $getuser, 'status_code' => 200];
+            return ['message' => 'success', 'data' => $gettopic, 'status_code' => 200];
         } else{
 
             return ['message' => 'failed', 'data' => 'unable to get data', 'status_code' => 500];
@@ -30,17 +54,17 @@ class TopicHelper
     public static function listTopics($request){
 
         $parameter = [
-            'count' => $request['user_data']['count'],
-            'offset' => $request['user_data']['offset'],
-            'parameter' => $request['user_data']['parameter']
+            'count' => $request['topic_data']['count'],
+            'offset' => $request['topic_data']['offset'],
+            'parameter' => $request['topic_data']['parameter']
         ];
 
-        $user = new User();
-        $listuser = $user->findAll($parameter);
+        $topic = new Topic();
+        $listtopics = $topic->findAll($parameter);
 
-        if($listuser){
+        if($listtopics){
 
-            return ['message' => 'success', 'data' => $listuser, 'status_code' => 200];
+            return ['message' => 'success', 'data' => $listtopics, 'status_code' => 200];
         } else{
 
             return ['message' => 'failed', 'data' => 'unable to list data', 'status_code' => 500];
@@ -54,13 +78,13 @@ class TopicHelper
 
         $parameter = [
             'id' => $request['id'],
-            'user_data' => $request['user_data']
+            'topic_data' => $request['topic_data']
         ];
 
-        $user = new User();
-        $updateuser = $user->updateOne($parameter);
+        $topic = new Topic();
+        $updatetopic = $topic->updateOne($parameter);
 
-        if($updateuser){
+        if($updatetopic){
 
             return ['message' => 'success', 'data' => 'Updated successfully', 'status_code' => 200];
         } else{
@@ -72,10 +96,10 @@ class TopicHelper
 
     public static function deleteTopic($request){
 
-        $user = new User();
-        $deleteuser = $user->deleteOne($request['id']);
+        $topic = new Topic();
+        $deletetopic = $topic->deleteOne($request['id']);
 
-        if($deleteuser){
+        if($deletetopic){
 
             return ['message' => 'success', 'data' => 'deleted successfully', 'status_code' => 200];
         } else{
