@@ -174,6 +174,7 @@ return [
 
 
         Portal\etc\PortalServiceProvider::class,
+        Storage\etc\StorageServiceProvider::class,
 
         /**
          * Moloquent Packages
