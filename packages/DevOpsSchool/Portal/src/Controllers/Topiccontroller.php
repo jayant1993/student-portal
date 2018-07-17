@@ -18,9 +18,9 @@ class Topiccontroller extends Controller
     public function addtopic(Request $request){
 
         $validator = Validator::make($request->all(), [ 
-            'course_id' => 'required|exists:courses,id',
             'topic_name' => 'required',
-            'price' => 'required|numeric',
+            'description' => 'sometimes',
+            'video' => 'sometimes',
             'status' => 'required|in:active,inactive'
         ]);
         

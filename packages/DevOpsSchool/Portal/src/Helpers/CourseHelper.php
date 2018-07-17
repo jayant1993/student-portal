@@ -12,6 +12,8 @@ class CourseHelper
         $parameter = [
             'id' => str_random(5),
             'course_name' => $request->course_name,
+            'topics' => $request->topics,
+            'description' => $request->description,
             'status' => $request->status
         ];
 

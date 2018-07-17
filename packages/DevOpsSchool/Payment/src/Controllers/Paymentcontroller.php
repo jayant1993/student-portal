@@ -1,57 +1,47 @@
 <?php
 
-namespace Portal\Controllers;
+namespace Payment\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Portal\Helpers\CourseHelper;
+
+use Payment\Helpers\StorageHelper;
+
 use App\Rules\ValidateData;
 
 use Validator;
 use Auth;
 
 
-class Coursecontroller extends Controller
+class Paymentcontroller extends Controller
 {
-
     
-    public function addcourse(Request $request){
+    public function add(Request $request){
 
         $validator = Validator::make($request->all(), [ 
-            'course_name' => 'required',
-            'course_thumb' => 'sometimes', //future validation for thubnail images
-            'topics' => 'required|array', //future topics validation should be there
-            'description' => 'sometimes',
-            'status' => 'required|in:active,inactive'
+            'file' => 'required'
         ]);
         
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors()], 401);            
         }
-        
-        $course = CourseHelper::addCourse($request);
 
-        return response()->json(["message" => $course['message'], "data" => $course['data']], $course['status_code']);        
+        $file = FileHelper::uploadFile($request->file);
+
+        $storage = new StorageHelper();
+        $object = $storage->addObject($file);
+
+        return response()->json(["message" => $object['message'], "data" => $object['data']], $object['status_code']);        
     }
 
 
-    public function listcourse(Request $request){
+    public function list(Request $request){
 
-        $validator = Validator::make($request->all(), [ 
-            'course_data' => 'required|array',
-            'course_data.parameter' => ['required','array', new ValidateData],
-            'course_data.count' => 'required|integer',
-            'course_data.offset' => 'required|integer'
-        ]);
-        
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
-        }
+        $storage = new StorageHelper();
+        $object = $storage->listObjects();
 
-        $course = CourseHelper::listCourses($request);
-
-        return response()->json(['message' => $course['message'], 'data' => $course['data']], $course['status_code']);
-
+        return response()->json(["message" => $object['message'], "data" => $object['data']], $object['status_code']);        
+  
     }
 
 

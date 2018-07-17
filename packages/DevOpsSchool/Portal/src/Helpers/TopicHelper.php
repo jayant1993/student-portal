@@ -11,9 +11,9 @@ class TopicHelper
 
         $parameter = [
             'id' => str_random(5),
-            'course_id' => $request->course_id,
             'topic_name' => $request->topic_name,
-            'price' => $request->price,
+            'description' => $request->description,
+            'video' => $request->video,
             'status' => $request->status
         ];
 

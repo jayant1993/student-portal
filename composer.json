@@ -29,7 +29,8 @@
         "psr-4": {
             "App\\": "app/",
             "Portal\\": "packages/DevOpsSchool/Portal/src",
-            "Storage\\": "packages/DevOpsSchool/Storage/src"
+            "Storage\\": "packages/DevOpsSchool/Storage/src",
+            "Payment\\": "packages/DevOpsSchool/Payment/src"
         }
     },
     "autoload-dev": {
