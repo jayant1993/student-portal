@@ -27,11 +27,7 @@ class ValidateData implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(in_array("id", $value)){
-            
-            return false;
-        } 
-        else if(in_array("_id", $value)){
+        if(in_array("_id", $value)){
             
             return false;
         } else if(in_array("username", $value)){

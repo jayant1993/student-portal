@@ -13,6 +13,7 @@ class CourseHelper
             'id' => str_random(5),
             'course_name' => $request->course_name,
             'topics' => $request->topics,
+            'price' => $request->price,
             'description' => $request->description,
             'status' => $request->status
         ];
