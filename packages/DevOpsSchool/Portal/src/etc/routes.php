@@ -53,6 +53,21 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
     Route::post('topic/update','Topiccontroller@updatetopic');
 
     Route::post('topic/delete','Topiccontroller@deletetopic');
+
+
+    /**
+     * Videos
+     */
+
+    Route::post('video/add','Videocontroller@addvideo');
+
+    Route::post('video/list','Videocontroller@listvideos');
+
+    Route::post('video/get','Videocontroller@getvideo');
+
+    Route::post('video/update','Videocontroller@updatevideo');
+
+    Route::post('video/delete','Videocontroller@deletevideo');
     
     
 });

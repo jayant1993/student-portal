@@ -33,7 +33,7 @@ class StorageHelper
 
             if($addObject){
 
-                return ['message' => 'success', 'data' => $addObject, 'status_code' => 200];
+                return ['message' => 'success', 'data' => $request['file']['filename'], 'status_code' => 200];
             } else{
     
                 return ['message' => 'failed', 'data' => 'unable to upload', 'status_code' => 500];
