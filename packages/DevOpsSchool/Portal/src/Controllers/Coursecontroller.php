@@ -21,7 +21,7 @@ class Coursecontroller extends Controller
             'course_name' => 'required',
             'course_thumb' => 'sometimes', //future validation for thubnail images
             'topics' => 'required|array', //future topics validation should be there
-            'description' => 'sometimes',
+            'course_description' => 'sometimes',
             'price' => 'required',
             'status' => 'required|in:active,inactive'
         ]);
@@ -74,8 +74,7 @@ class Coursecontroller extends Controller
 
     }
 
-
-
+    //not updated
     public function updatecourse(Request $request){
 
         $validator = Validator::make($request->all(), [ 

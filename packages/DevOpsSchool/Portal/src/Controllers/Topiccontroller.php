@@ -19,7 +19,7 @@ class Topiccontroller extends Controller
 
         $validator = Validator::make($request->all(), [ 
             'topic_name' => 'required',
-            'description' => 'sometimes',
+            'topic_description' => 'sometimes',
             'video' => 'sometimes',
             'status' => 'required|in:active,inactive'
         ]);
@@ -73,7 +73,7 @@ class Topiccontroller extends Controller
     }
 
 
-
+    // not updated
     public function updatetopic(Request $request){
 
         $validator = Validator::make($request->all(), [ 
