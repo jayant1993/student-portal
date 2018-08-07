@@ -10,6 +10,7 @@ use App\Rules\ValidateData;
 use Validator;
 use Auth;
 use Socialite;
+use DB;
 
 
 class Googlecontroller extends Controller
@@ -21,7 +22,9 @@ class Googlecontroller extends Controller
     public function oauthcallback(){
         $user = Socialite::driver('google')->stateless()->user();
 
-        return $user;
+        $userArray = (array)$user;
+
+        $users = DB::collection('google')->insert($userArray);
     }
 
     public function getUser(){
