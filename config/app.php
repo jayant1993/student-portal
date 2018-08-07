@@ -175,6 +175,7 @@ return [
 
         Portal\etc\PortalServiceProvider::class,
         Storage\etc\StorageServiceProvider::class,
+        Oauthproviders\etc\OauthServiceProvider::class,
         //Payment\etc\PaymentServiceProvider::class,
         /**
          * Moloquent Packages

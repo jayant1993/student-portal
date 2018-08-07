@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/passport": "4",
+        "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "moloquent/moloquent": "dev-master"
     },
@@ -30,7 +31,8 @@
             "App\\": "app/",
             "Portal\\": "packages/DevOpsSchool/Portal/src",
             "Storage\\": "packages/DevOpsSchool/Storage/src",
-            "Payment\\": "packages/DevOpsSchool/Payment/src"
+            "Payment\\": "packages/DevOpsSchool/Payment/src",
+            "Oauthproviders\\":"packages/DevOpsSchool/Oauthproviders/src"
         }
     },
     "autoload-dev": {
