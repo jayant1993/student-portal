@@ -38,7 +38,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),         // Your GitHub Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Your GitHub Client Secret
-        'redirect' => 'http://localhost:8000/callback',
+        'redirect' => 'http://ec2-18-188-161-205.us-east-2.compute.amazonaws.com:8000/callback',
     ],
 
 ];
