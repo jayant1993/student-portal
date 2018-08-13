@@ -44,9 +44,10 @@ class Googlecontroller extends Controller
             $google = DB::collection('users')->push("google", $userArray);
 
             if($authtype && $setSessionID && $google){
-                return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $session_id, 45000); 
+                return redirect($request->server('HTTP_REFERER') . "?status=success");
+                //return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $session_id, 45000); 
             } else{
-                return redirect($request->server('HTTP_REFERER'));
+                return redirect($request->server('HTTP_REFERER') . "?status=failed");
             }
 
 
@@ -73,7 +74,7 @@ class Googlecontroller extends Controller
             $insertUser = DB::collection('users')->insert($user);
 
             if($insertUser){
-                return redirect( $request->server('HTTP_REFERER') )->withCookie('session_id', $user["session_id"], 45000);
+                return redirect($request->server('HTTP_REFERER') . "?status=success");
             }
 
         }
