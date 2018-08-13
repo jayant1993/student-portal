@@ -37,12 +37,14 @@ class Googlecontroller extends Controller
 
             $authtype = DB::collection('users')->push("authentication_type", "google");
 
+            $session_id = str_random(10);
+
             $setSessionID = DB::collection('users')->push("session_id", str_random(10));
 
             $google = DB::collection('users')->push("google", $userArray);
 
             if($authtype && $setSessionID && $google){
-                return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $user["session_id"], 45000); 
+                return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $session_id, 45000); 
             } else{
                 return redirect($request->server('HTTP_REFERER'));
             }
