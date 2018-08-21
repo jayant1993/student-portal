@@ -10,9 +10,11 @@ Route::group(['namespace' => $namespace], function(){
 
     Route::get('callback','Googlecontroller@oauthcallback');
 
-    Route::get('google/get/user','Googlecontroller@getUser');
+    Route::get('google/redirect','Googlecontroller@redirect_call');
 
     Route::get('google/login','Googlecontroller@redirectGoogle');
+
+    Route::post('get/session','Googlecontroller@getSession');
 
    
     

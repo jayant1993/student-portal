@@ -4,6 +4,7 @@ namespace Oauthproviders\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 use App\Rules\ValidateData;
 use Portal\Models\User; 
@@ -21,6 +22,13 @@ use DB;
 
 class Googlecontroller extends Controller
 {
+    private $redis;
+
+    public function __construct(){
+
+        $this->redis = Redis::connection();
+    }
+
     public function redirectGoogle(){
         return Socialite::driver('google')->stateless()->redirect();
     }
@@ -32,24 +40,29 @@ class Googlecontroller extends Controller
         $userArray = (array)$user;
 
         if($this->checkUserExists($userArray["email"])){
+
             //if user exists
             //check email, update session
 
-            $authtype = DB::collection('users')->push("authentication_type", "google");
+            $user = $this->checkUserExists($userArray["email"]);
 
-            $session_id = str_random(10);
+            $authtype = DB::collection('users')->update(["authtype" => "google", "google" => $userArray]);
 
-            $setSessionID = DB::collection('users')->push("session_id", str_random(10));
+            $session_id = str_random(20);
 
-            $google = DB::collection('users')->push("google", $userArray);
+            if($authtype){
 
-            if($authtype && $setSessionID && $google){
+                $this->redis->set($session_id, json_encode([
+                    "user_id" => $user['id']
+                ]), 'EX', 3600);
 
-                return response()->json(["message" => "success"], 200)->withCookie('session_id', $session_id, 45000);
-                //return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $session_id, 45000); 
+                return redirect($request->server('HTTP_REFERER') . '?session_id=' . $session_id . '&status=success');
+
             } else{
-                return response()->json(["message" => "falied"], 400);
+
+                return redirect($request->server('HTTP_REFERER') . '?status=error');
             }
+
 
 
         } else{
@@ -63,48 +76,72 @@ class Googlecontroller extends Controller
                 "username" => null,
                 "password" => null,
                 "name" => $userArray["name"],
-                "email" => $userArray["mobile"],
+                "email" => $userArray["email"],
                 "mobile" => null,
                 "role" => "user",
                 "status" => "active",
-                "authentication_type" => "google",
-                "session_id" => str_random(10),
+                'authtype' => "google",
                 "google" => $userArray
             ); 
+
+
+            $session_id = str_random(20);
 
             $insertUser = DB::collection('users')->insert($user);
 
             if($insertUser){
-                return response()->json(["message" => "success"], 200)->withCookie('session_id', $session_id, 45000);
-                //return redirect($request->server('HTTP_REFERER'))->withCookie('session_id', $session_id, 45000); 
+
+                $this->redis->set($session_id, json_encode([
+                    "user_id" => $user['id']
+                ]), 'EX', 3600);
+                
+                return redirect($request->server('HTTP_REFERER') . '?session_id=' . $session_id . '&status=success');
+
             } else{
-                return response()->json(["message" => "falied"], 400);
+
+                return redirect($request->server('HTTP_REFERER') . '?status=error');
             }
         }
 
-        $userArray['session_id'] = str_random(20);
-
-        $users = DB::collection('google')->insert($userArray);
     }
+ 
+    public function redirect_call(Request $request){
 
+        if(isset($request->session_id)){
+            if($this->redis->get($request->session_id)){
 
-    public function is_token_valid(){
-
-        $token = $this->get_access_token();
-
-        try{
-            $client = new Client(); //GuzzleHttp\Client
-            $result = $client->get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='.$token['access_token']);
-
-            if($result->getStatusCode() != 200){
-                return false;
+                return redirect($request->server('HTTP_REFERER') . '?session_id=' . $this->redis->get('user_session'));
+            
             } else{
-                return true;
+            
+                return Socialite::driver('google')->stateless()->redirect();
+            // $this->redirectGoogle();
+
             }
-        } catch(GuzzleException $e){
-                return false;
+        } else{
+            return Socialite::driver('google')->stateless()->redirect();
         }
     }
+
+
+    // public function is_token_valid(){
+
+    //     $token = $this->get_access_token();
+
+    //     try{
+    //         $client = new Client(); //GuzzleHttp\Client
+    //         $result = $client->get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='.$token['access_token']);
+
+    //         if($result->getStatusCode() != 200){
+    //             return false;
+    //         } else{
+    //             return true;
+    //         }
+    //     } catch(GuzzleException $e){
+    //             return false;
+    //     }
+    // }
+
 
     public function checkUserExists($email){
         $user = new User();
@@ -116,11 +153,15 @@ class Googlecontroller extends Controller
 
         $check = $user->findOne($para);
 
-        if(count($check) == 0){
-            return true;
+        if(count($check) !== 0){
+            return $check;
         } else{
             return false;
         }
     }
+
+    
+
+
 
 }

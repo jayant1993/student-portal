@@ -9,6 +9,14 @@ Route::group(['namespace' => $namespace, 'prefix' => 'api'], function(){
     });
 
     /**
+     *  Session
+     */
+
+    
+    Route::post('session/get','Usercontroller@getSession');
+
+
+    /**
      * User
      */
 

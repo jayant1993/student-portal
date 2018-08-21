@@ -4,6 +4,7 @@ namespace Portal\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Portal\Models\User;
 use Portal\Helpers\Authentication;
 use Portal\Helpers\UserHelper;
@@ -15,6 +16,14 @@ use Auth;
 
 class Usercontroller extends Controller
 {
+
+    private $redis;
+
+    public function __construct(){
+
+        $this->redis = Redis::connection();
+    }
+
 
     /**
      * Auth methods
@@ -98,7 +107,10 @@ class Usercontroller extends Controller
             'mobile' => $request->mobile,
             'role' => $request->role,
             'access' => $request->access,
-            'status' => $request->status
+            'status' => $request->status,
+            'authtype' => null,
+            'google' => null
+
         ]);
 
         if($user){
@@ -190,6 +202,18 @@ class Usercontroller extends Controller
         $user = UserHelper::deleteUser($request);
 
         return response()->json(['message' => $user['message'], 'data' => $user['data']], $user['status_code']);
+
+    }
+
+    public function getSession(Request $request){
+        
+        if($this->redis->get($request->session_id) === null){
+            
+            return response()->json(["message" => "failed"], 400);
+                
+        } else{
+            return response()->json(["message" => "success", "Data" => json_decode($this->redis->get($request->session_id))], 200);
+        }
 
     }
 
