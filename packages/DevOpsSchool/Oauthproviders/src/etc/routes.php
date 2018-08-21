@@ -14,8 +14,6 @@ Route::group(['namespace' => $namespace], function(){
 
     Route::get('google/login','Googlecontroller@redirectGoogle');
 
-    Route::post('get/session','Googlecontroller@getSession');
-
    
     
     
